@@ -1,7 +1,18 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+    ],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 class ExerciseCreate(BaseModel):
     name: str = Field(min_length = 1, max_length = 30)
@@ -23,6 +34,7 @@ def home():
 
 exercises = []
 workouts = []
+result = []
 
 next_id = 1
 next_workout_id = 1
@@ -97,8 +109,17 @@ def get_workout(workout_id: int):
     )
 
 @app.get("/workouts")
-def get_workouts():
-    return workouts
+def get_workouts(exercise_id: int | None = None):
+    if exercise_id is None:
+        return workouts
+    
+    result = []
+
+    for item in workouts:
+        if item["exercise_id"] == exercise_id:
+            result.append(item)
+            
+    return result
 
 @app.delete("/exercises/{exercise_id}")
 def delete_exercise(exercise_id: int):
