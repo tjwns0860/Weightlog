@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import './App.css';
 
-const API = import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000';
+const API = import.meta.env.VITE_API_BASE_URL || '/api';
 const types = ['맨몸', '머신', '덤벨', '바벨'];
 const parts = ['가슴', '등', '어깨', '하체', '팔', '복근', '기타'];
 
