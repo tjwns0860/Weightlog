@@ -79,3 +79,22 @@ jobs:
           push: true
           platforms: linux/amd64
           tags: choiseojun/weightlog-frontend:week4-demo
+
+  deploy:
+    needs: docker
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+          fingerprint: ${{ secrets.EC2_FINGERPRINT }}
+          port: 22
+          script: |
+            cd ~/Weightlog
+            docker compose -f deploy/compose.yaml pull
+            docker compose -f deploy/compose.yaml up -d --remove-orphans
