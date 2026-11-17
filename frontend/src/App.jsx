@@ -123,7 +123,7 @@ function App() {
   return (
     <main>
       <h1>WeightLog</h1>
-      <p>운동 등록 및 세트별 기록</p>
+      <p>운동 등록 및 세트별 기록 - CI/CD 배포 테스트</p>
 
       {error && <p role="alert">오류: {error}</p>}
       {message && <p role="status">{message}</p>}
