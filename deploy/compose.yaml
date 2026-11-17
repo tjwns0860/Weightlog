@@ -1,0 +1,14 @@
+services:
+  backend:
+    image: choiseojun/weightlog-backend:week4-demo
+    restart: unless-stopped
+    expose:
+      - "8000"
+
+  frontend:
+    image: choiseojun/weightlog-frontend:week4-demo
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
